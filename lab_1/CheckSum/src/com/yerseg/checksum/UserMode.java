@@ -4,34 +4,30 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public interface UserMode
-{
-    public void start();
-    public default String checkSumSHA256(String file)
-    {
+public abstract class UserMode {
+    public boolean IOError = false;
+
+    public abstract void start();
+
+    public String checkSumSHA256(String file) {
         String checksum = null;
-        try
-        {
+        try {
             checksum = DigestUtils.sha256Hex(new FileInputStream(file));
-        }
-        catch (IOException ex)
-        {
-            System.out.println("IOException: " + ex.getMessage() + "Enter the correct file path:\n");
+        } catch (IOException ex) {
+            IOError = true;
+            System.out.println(ex.getMessage() + "Enter the correct file path:\n");
         }
 
         return checksum;
     }
 
-    public default String checkSumMD5(String file)
-    {
+    public String checkSumMD5(String file) {
         String checksum = null;
-        try
-        {
+        try {
             checksum = DigestUtils.md5Hex(new FileInputStream(file));
-        }
-        catch (IOException ex)
-        {
-            System.out.println("IOException: " + ex.getMessage() + "\n");
+        } catch (IOException ex) {
+            IOError = true;
+            System.out.println(ex.getMessage() + "\n");
         }
 
         return checksum;
