@@ -3,6 +3,7 @@ package com.yerseg.web;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,32 +20,53 @@ public class MainServlet extends HttpServlet {
 
     protected Multimap<Integer, String> multiMap;
 
+    protected SetOfSessionId setId;
+
     public void init() {
         multiMap = HashMultimap.create();
+        setId = SetOfSessionId.getInstance();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uuid = "";
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            if (cookies.length != 0)
+                for (Cookie cookie : cookies) {
+                    if ("sessionId".equals(cookie.getName())) {
+                        uuid = cookie.getValue();
+                    }
+                }
 
-        Random random = new Random(System.currentTimeMillis());
-        int number1 = -125 + random.nextInt(347 - 125 + 1);
-        int number2 = -125 + random.nextInt(347 - 125 + 1);
-        int seed = (int) (System.currentTimeMillis() % 100000);
-        String hash = String.valueOf(MurmurHash3.hash32((long) number1, (long) number2, seed));
-        multiMap.put(number1 + number2, hash);
+        }
+        if (!setId.containsSessionId(uuid)) {
+            Random random = new Random(System.currentTimeMillis());
+            int number1 = -125 + random.nextInt(347 - 125 + 1);
+            int number2 = -125 + random.nextInt(347 - 125 + 1);
+            int seed = (int) (System.currentTimeMillis() % 100000);
+            String hash = String.valueOf(MurmurHash3.hash32((long) number1, (long) number2, seed));
+            multiMap.put(number1 + number2, hash);
 
-        request.setAttribute("number1", number1);
-        request.setAttribute("number2", number2);
-        request.setAttribute("hashNum", hash);
-        request.getRequestDispatcher("/count_to_get_in.jsp").forward(request, response);
+            request.setAttribute("number1", number1);
+            request.setAttribute("number2", number2);
+            request.setAttribute("hashNum", hash);
+            request.getRequestDispatcher("/count_to_get_in.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/hello_inside.jsp").forward(request, response);
+        }
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int userAnswer = Integer.parseInt(request.getParameter("answer"));
         String hash = request.getParameter("hash");
         if (checkUserAnswer(userAnswer, hash)) {
+            UUID uuid = UUID.randomUUID();
+            setId.putSessionId(uuid.toString());
+            Cookie cookie = new Cookie("sessionId", uuid.toString());
+            response.addCookie(cookie);
             request.getRequestDispatcher("/hello_inside.jsp").forward(request, response);
-        }
-        else {
+        } else {
             doGet(request, response);
         }
     }
