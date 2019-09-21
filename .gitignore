@@ -1,0 +1,5 @@
+/lab_2/apache-tomcat-9.0.24/*
+/lab_2/WebApp/*
+!/lab_2/WebApp/target/*
+!/lab_2/WebApp/src/*
+!/lab_2/WebApp/pom.xml
