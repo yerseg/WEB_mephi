@@ -15,6 +15,7 @@
 <body>
 <h2>Count sum of two numbers</h2>
 
+<p>Your message: ${message} </p>
 <p>Your numbers are: ${number1}, ${number2}</p>
 
 <form method="POST">

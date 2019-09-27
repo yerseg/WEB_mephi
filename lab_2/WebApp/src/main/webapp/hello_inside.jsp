@@ -11,6 +11,6 @@
     <title>Hello</title>
 </head>
 <body>
-<h1>HELLO, MY OLD FRIEND!</h1>
+<h2>HELLO, MY ${message} FRIEND!</h2>
 </body>
 </html>

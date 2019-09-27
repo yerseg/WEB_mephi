@@ -1,19 +1,16 @@
 package com.yerseg.web;
 
-import org.apache.commons.codec.digest.MurmurHash3;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Random;
 
 @WebFilter(filterName = "UserFilter")
 public class UserFilter implements Filter {
 
-    protected SetOfSessionId setId;
+    private SetOfSessionId setId;
 
     public void destroy() {
     }
@@ -21,6 +18,7 @@ public class UserFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         HttpServletResponse httpResponse = (HttpServletResponse) resp;
+
         String uuid = "";
         Cookie[] cookies = httpRequest.getCookies();
         if (cookies != null) {
@@ -33,6 +31,16 @@ public class UserFilter implements Filter {
         }
         String[] addr = httpRequest.getRequestURI().split("/");
         if (setId.containsSessionId(uuid)) {
+
+            try {
+                String msg = httpRequest.getParameter("message");
+                if (msg != null) {
+                    httpRequest.setAttribute("message", msg);
+                }
+            } catch (NullPointerException ex) {
+
+            }
+
             httpRequest.getRequestDispatcher("/hello_inside.jsp").forward(req, resp);
         } else {
             if (addr.length != 0 && addr[addr.length - 1] != null) {

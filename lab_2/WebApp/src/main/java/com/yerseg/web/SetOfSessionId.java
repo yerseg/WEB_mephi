@@ -7,7 +7,7 @@ public class SetOfSessionId {
     private Set<String> sessionIdSet;
 
     private SetOfSessionId() {
-        sessionIdSet = new HashSet<String>();
+        sessionIdSet = new HashSet<>();
     }
 
     private static class SetOfSessionIdHolder {
