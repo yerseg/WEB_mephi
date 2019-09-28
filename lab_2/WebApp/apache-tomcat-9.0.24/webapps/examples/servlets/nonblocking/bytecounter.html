@@ -24,7 +24,9 @@
        it. The server will read the request body using non-blocking IO and then
        respond with the total length of the request body in bytes.</p>
     <form method="POST" enctype="multipart/form-data" action="bytecounter" >
-      <p><textarea name="data" rows="5" cols="60" ></textarea></p>
+      <p><label>
+          <textarea name="data" rows="5" cols="60" ></textarea>
+      </label></p>
       <p><input name="source" type="file" /></p>
       <p><input type="submit" value="Submit" /></p>
     </form>

@@ -17,9 +17,9 @@ import java.util.UUID;
 @WebServlet("/MainServlet")
 public class MainServlet extends HttpServlet {
 
-    protected Multimap<Integer, String> multiMap;
+    private Multimap<Integer, String> multiMap;
 
-    protected SetOfSessionId setId;
+    private SetOfSessionId setId;
 
     public void init() {
         multiMap = HashMultimap.create();
@@ -28,8 +28,8 @@ public class MainServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Random random = new Random(System.currentTimeMillis());
-        int number1 = -125 + random.nextInt(347 - 125 + 1);
-        int number2 = -125 + random.nextInt(347 - 125 + 1);
+        int number1 = -125 + random.nextInt(347 + 125 + 1);
+        int number2 = -125 + random.nextInt(347 + 125 + 1);
         int seed = (int) (System.currentTimeMillis() % 100000);
         String hash = String.valueOf(MurmurHash3.hash32(number1, number2, seed));
         multiMap.put(number1 + number2, hash);
@@ -42,7 +42,7 @@ public class MainServlet extends HttpServlet {
             if (msg != null) {
                 request.setAttribute("message", msg);
             }
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException ignored) {
 
         }
 
@@ -50,7 +50,10 @@ public class MainServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userAnswer = Integer.parseInt(request.getParameter("answer"));
+        int userAnswer = -126;
+        if (request.getParameter("answer") != "") {
+            userAnswer = Integer.parseInt(request.getParameter("answer"));
+        }
         String hash = request.getParameter("hash");
         if (checkUserAnswer(userAnswer, hash)) {
             UUID uuid = UUID.randomUUID();
@@ -63,7 +66,7 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    protected boolean checkUserAnswer(int answer, String hash) {
+    private boolean checkUserAnswer(int answer, String hash) {
         if (multiMap.containsKey(answer)) {
             if (multiMap.get(answer).contains(hash)) {
                 return true;

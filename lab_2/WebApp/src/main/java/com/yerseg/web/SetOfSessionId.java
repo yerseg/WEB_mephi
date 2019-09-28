@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SetOfSessionId {
-    private Set<String> sessionIdSet;
+    private final Set<String> sessionIdSet;
 
     private SetOfSessionId() {
         sessionIdSet = new HashSet<>();

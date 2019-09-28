@@ -359,8 +359,10 @@
 
 -->
 
+  <property name="manager.username" value=""/>
+  <property name="manager.password" value=""/>
   <target name="install" depends="compile"
-   description="Install application to servlet container">
+          description="Install application to servlet container">
 
     <deploy url="${manager.url}"
        username="${manager.username}"
@@ -407,8 +409,10 @@
 
 -->
 
+  <property name="manager.password" value=""/>
+  <property name="manager.username" value=""/>
   <target name="list"
-   description="List installed applications on servlet container">
+          description="List installed applications on servlet container">
 
     <list    url="${manager.url}"
         username="${manager.username}"
@@ -472,8 +476,10 @@
 
 -->
 
+  <property name="manager.password" value=""/>
+  <property name="manager.username" value=""/>
   <target name="reload" depends="compile"
-   description="Reload application on servlet container">
+          description="Reload application on servlet container">
 
     <reload url="${manager.url}"
        username="${manager.username}"
@@ -494,8 +500,10 @@
 
 -->
 
+  <property name="manager.password" value=""/>
+  <property name="manager.username" value=""/>
   <target name="remove"
-   description="Remove application on servlet container">
+          description="Remove application on servlet container">
 
     <undeploy url="${manager.url}"
          username="${manager.username}"
