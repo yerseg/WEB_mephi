@@ -4,6 +4,9 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.codec.digest.MurmurHash3;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -38,7 +41,7 @@ public class MainServlet extends HttpServlet {
         request.setAttribute("hashNum", hash);
 
         try {
-            String msg = (String) request.getParameter("message");
+            String msg = request.getParameter("message");
             if (msg != null) {
                 request.setAttribute("message", msg);
             }
@@ -51,7 +54,7 @@ public class MainServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int userAnswer = -126;
-        if (request.getParameter("answer").equals("")) {
+        if (!(request.getParameter("answer").equals(""))) {
             userAnswer = Integer.parseInt(request.getParameter("answer"));
         }
         String hash = request.getParameter("hash");
@@ -61,6 +64,17 @@ public class MainServlet extends HttpServlet {
             Cookie cookie = new Cookie("sessionId", uuid.toString());
             response.addCookie(cookie);
             response.sendRedirect(request.getContextPath() + "/hello_inside.html");
+
+
+            EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("my_table");
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+            User us = new User("yerseg", "password");
+
+            entityManager.getTransaction().begin();
+            entityManager.persist(us);
+            entityManager.getTransaction().commit();
+
         } else {
             response.sendRedirect(request.getContextPath() + "/count_to_get_in.html");
         }
