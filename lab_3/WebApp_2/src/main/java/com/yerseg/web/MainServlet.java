@@ -51,7 +51,7 @@ public class MainServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int userAnswer = -126;
-        if (!(request.getParameter("answer").equals(""))) {
+        if (request.getParameter("answer").equals("")) {
             userAnswer = Integer.parseInt(request.getParameter("answer"));
         }
         String hash = request.getParameter("hash");
