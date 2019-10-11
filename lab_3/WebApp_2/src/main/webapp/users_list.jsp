@@ -1,16 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
   User: yerseg
-  Date: 20.09.2019
-  Time: 13:19
+  Date: 10.10.2019
+  Time: 21:41
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Hello</title>
+    <title>UsersList</title>
 </head>
 <body>
-<h2>HELLO, MY ${message} FRIEND!</h2>
+these users have already registered: ${users}
 </body>
 </html>
