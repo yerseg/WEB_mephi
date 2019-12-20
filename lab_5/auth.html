@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        Auth at MEME++
+    </title>
+    <link rel="icon" href="./images/icon.png" type="image/png">
+    <!--<link rel="apple-touch-icon" href="images/icon.png" type="image/png">-->
+    <style>
+        @import "css/mystyles.css"
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+        <img src="./images/grumpy.png" alt="Logo Cat">
+        <p style="color: #ff8800;font-size: 40px;font-family: bold;">MEME++</p>
+        <p style="font-size: 22px;font-family:Palatino, serif;font-weight:3;">The place for sharing memes</p>
+    </div>
+    <div class="form-div">
+        <form th:object="${user}" th:action="@{/auth}" method="post">
+
+            <p class="label">Login</p>
+            <input type="text"th:field="*{login}" class="input"/>
+            
+            <p class="label">Password</p>
+            <input type="text" th:field="*{password}" class="input" />
+
+            <br/>
+            <button type="submit" class="button-submit">Sign in</button>
+        </form>
+    </div>
+    <div class="for-signup">
+        <a>Don't have an account yet?</a>
+        <a href="/register">Register now</a>
+    </div>
+    <div class="footer">
+        2019 MEME++
+        <br/>
+        <a href="https://t.me/telekazmin">
+            <img src="images/tg.png" alt="Telegram Logo" style="width: 40px;height:40px;margin-top: 5px;">
+    </div>
+    
+</div>
+
+</body>
+</html>
