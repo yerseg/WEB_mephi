@@ -1,0 +1,20 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.Navigation {
+  display: flex;
+  flex-direction: row;
+  font-family: sans-serif;
+	font-weight: 550; 
+  font-size: 16px; 
+  background-color: #f9f9f9; 
+  justify-content: space-around; 
+  margin: 10px;
+  padding: 7px;
+}

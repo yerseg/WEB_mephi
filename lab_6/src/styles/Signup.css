@@ -1,0 +1,11 @@
+.BigForm {
+	display: flex;
+	flex-direction: column;
+	align-self: center;	
+	justify-content: center;
+	height: 320px;
+	width: 320px;
+	margin-top: 10px;
+	border: 1px solid #e5e5e5;
+	background-color: #f9f9f9;
+}
